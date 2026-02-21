@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Card</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.quiz-container {
+  width: 500px;
+  perspective: 1000px;
+  animation: cardEnter 0.6s ease forwards;
+}
+
+.card {
+  background: linear-gradient(to bottom right, white, #f8fafc, #e5e7eb);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #334155, #475569);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.options {
+  display: grid;
+  gap: 15px;
+}
+
+.option-btn {
+  padding: 15px;
+  border-radius: 15px;
+  border: 2px solid #e5e7eb;
+  background: rgba(255,255,255,0.8);
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.option-btn.selected {
+  background: linear-gradient(to right, #475569, #1e293b);
+  color: white;
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.option-btn .label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.option-btn .shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, white, transparent);
+  opacity: 0;
+  transform: skewX(-20deg) translateX(-100%);
+}
+
+.option-btn:hover .shine {
+  animation: shine 2s infinite;
+  opacity: 0.2;
+}
+
+@keyframes shine {
+  to {
+    transform: skewX(-20deg) translateX(200%);
+  }
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotateY(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+  <div class="card">
+    <h2 id="question">Apa ibu kota Indonesia?</h2>
+
+    <div class="options" id="options">
+      <!-- Options akan dimasukkan lewat JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+const options = ["Jakarta", "Bandung", "Surabaya", "Medan"];
+const optionsContainer = document.getElementById("options");
+
+options.forEach((option, index) => {
+  const button = document.createElement("button");
+  button.className = "option-btn";
+
+  button.innerHTML = `
+    <span class="label">${String.fromCharCode(65 + index)}.</span>
+    ${option}
+    <div class="shine"></div>
+  `;
+
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".option-btn").forEach(btn => {
+      btn.classList.remove("selected");
+    });
+    button.classList.add("selected");
+  });
+
+  optionsContainer.appendChild(button);
+});
+</script>
+
+</body>
+</html>
